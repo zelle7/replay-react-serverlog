@@ -8,8 +8,8 @@ export const REPLAY = {
 };
 
 export const RECORDING = {
-    RECORDING_START: 'RECORDING_START',
-    RECORDING_STOP: 'RECORDING_STOP'
+    START: 'RECORDING_START',
+    STOP: 'RECORDING_STOP'
 };
 
 export const ACTION_POSITION = {

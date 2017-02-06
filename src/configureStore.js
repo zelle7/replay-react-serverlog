@@ -9,7 +9,7 @@ import createLogger from 'redux-logger';
 
 const loggerMiddleware = createLogger();
 const ignoreActions = [REPLAY.START, REPLAY.START, REPLAY.STOP, RECORDING.START];
-const asyncLogger = configureAsyncLogger(5, ignoreActions, ignoreActions, '/test');
+const asyncLogger = configureAsyncLogger(5, ignoreActions, ignoreActions, 'http://localhost:4567/log');
 
 export default function configureStore(initialState) {
     return createStore(
@@ -50,6 +50,7 @@ function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, fetchUr
                     method: 'POST',
                     credentials: 'include',
                     headers: new Headers({'Content-Type': 'application/json'}),
+                    mode: 'no-cors',
                     body: tmpCacheLog
                 })
                     .then(function (serverResp) {

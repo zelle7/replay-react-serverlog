@@ -15,7 +15,7 @@ class AppContainer extends Component {
 
     onRecordingClick(e) {
         let type = this.props.replay.recording ? RECORDING.STOP : RECORDING.START;
-        console.log(type);
+        console.log(RECORDING);
         this.props.dispatch({type: type, data: {}});
     }
 
