@@ -7,13 +7,14 @@ import "./external/css/bootstrap.css";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 import configureStore from "./configureStore";
-
+import {trackCursorPosition, restoreHistory} from './utils/autoplay';
 
 const store = configureStore();
-
+const useHistory = restoreHistory(store, 'http://localhost:4567/list', null);
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <App trackCursorPosition={trackCursorPosition(store, 200)} onReplayClick={useHistory} />
     </Provider>,
     document.getElementById('root')
 );
+

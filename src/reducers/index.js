@@ -3,9 +3,11 @@
  */
 import { combineReducers } from 'redux'
 import {replay} from './replay'
+import {positions} from './positions'
 
 const replayApp = combineReducers({
-    replay
+    replay,
+    positions,
 });
 
 export default replayApp;

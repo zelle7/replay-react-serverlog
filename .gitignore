@@ -17,3 +17,5 @@ npm-debug.log
 #idea
 .idea/
 *.iml
+
+java/target/

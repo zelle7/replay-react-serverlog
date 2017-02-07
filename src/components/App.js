@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import {ACTION_POSITION, RECORDING, REPLAY} from "../constants";
 import Controls from './replay/controls';
+import CursorIndicators from './replay/CursorIndicators';
 
 class AppContainer extends Component {
     constructor(props, context){
@@ -15,13 +16,11 @@ class AppContainer extends Component {
 
     onRecordingClick(e) {
         let type = this.props.replay.recording ? RECORDING.STOP : RECORDING.START;
-        console.log(RECORDING);
         this.props.dispatch({type: type, data: {}});
     }
 
     onReplayClick(e) {
-        let type = this.props.replay.replay ? REPLAY.STOP : REPLAY.START;
-        this.props.dispatch({type: type, data: {}});
+        this.props.onReplayClick();
     }
 
 
@@ -29,7 +28,7 @@ class AppContainer extends Component {
         const {recording, replay} = this.props.replay;
         return (
             <div className="App" onClick={this.props.clickPosition}>
-                <ReactCursorPosition onCursorPositionChanged={this.props.trackCursorPosition}>
+                {/*<ReactCursorPosition onCursorPositionChanged={()=>{console.log("move")}}>*/}
                     <div className="App-header">
                         <img src={logo} className="App-logo" alt="logo"/>
                         <h2>Welcome to React</h2>
@@ -37,8 +36,11 @@ class AppContainer extends Component {
                     <p className="App-intro">asdf
                         To get started, edit <code>src/App.js</code> and save to reload.
                     </p>
-                    <Controls replay={replay} recording={recording} onReplayClick={this.onReplayClick} onRecordingClick={this.onRecordingClick}/>
-                </ReactCursorPosition>
+                    <div style={{textAlign: 'center'}}>
+                        <Controls replay={replay} recording={recording} onReplayClick={this.onReplayClick} onRecordingClick={this.onRecordingClick}/>
+                    </div>
+                    {this.props.replay.replay ? <CursorIndicators cursorPositions={this.props.positions.cursor} clickPositions={this.props.positions.clicks} /> : null}
+                {/* </ReactCursorPosition> */}
             </div>
         );
     }
@@ -51,15 +53,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        trackCursorPosition: (cursorPosition) => {
-            dispatch({type: ACTION_POSITION.MOVE, data: {x: cursorPosition.x, y: cursorPosition.y}})
-        },
         clickPosition: (e) => {
             dispatch({type: ACTION_POSITION.CLICK, data: {x: e.screenX, y: e.screenY}})
         },
         dispatch : dispatch
     }
 };
+
 
 export const App = connect(
     mapStateToProps,
