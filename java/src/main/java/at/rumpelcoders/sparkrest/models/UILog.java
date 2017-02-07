@@ -1,4 +1,4 @@
-package at.rumpelcoders.sparkrest;
+package at.rumpelcoders.sparkrest.models;
 
 /**
  * Created by chzellot on 07.02.17.
