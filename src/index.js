@@ -4,6 +4,7 @@ import replayApp from "./reducers/index";
 import {App} from "./components/App";
 import "./index.css";
 import "./external/css/bootstrap.css";
+import ReactCursorPosition from 'react-cursor-position'
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 import configureStore from "./configureStore";
@@ -13,7 +14,9 @@ const store = configureStore();
 const useHistory = restoreHistory(store, 'http://localhost:4567/list', null);
 ReactDOM.render(
     <Provider store={store}>
-        <App trackCursorPosition={trackCursorPosition(store, 200)} onReplayClick={useHistory} />
+        <ReactCursorPosition onCursorPositionChanged={trackCursorPosition(store, 50)}>
+        <App onReplayClick={useHistory} />
+        </ReactCursorPosition>
     </Provider>,
     document.getElementById('root')
 );

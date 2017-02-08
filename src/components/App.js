@@ -28,7 +28,6 @@ class AppContainer extends Component {
         const {recording, replay} = this.props.replay;
         return (
             <div className="App" onClick={this.props.clickPosition}>
-                {/*<ReactCursorPosition onCursorPositionChanged={()=>{console.log("move")}}>*/}
                     <div className="App-header">
                         <img src={logo} className="App-logo" alt="logo"/>
                         <h2>Welcome to React</h2>
@@ -40,7 +39,6 @@ class AppContainer extends Component {
                         <Controls replay={replay} recording={recording} onReplayClick={this.onReplayClick} onRecordingClick={this.onRecordingClick}/>
                     </div>
                     {this.props.replay.replay ? <CursorIndicators cursorPositions={this.props.positions.cursor} clickPositions={this.props.positions.clicks} /> : null}
-                {/* </ReactCursorPosition> */}
             </div>
         );
     }

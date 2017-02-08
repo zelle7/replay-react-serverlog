@@ -13,13 +13,12 @@ import {REPLAY, RECORDING, ACTION_POSITION} from "../constants";
  */
 export function restoreHistory(store, logListUrl, fetchConfig) {
     if(fetchConfig == null){
-        fetchConfig = {method: 'get', credentials: 'include', mode: 'no-cors'}
+        fetchConfig = {method: 'get', credentials: 'include'}
     }
     return () => {
         fetch(logListUrl, fetchConfig)
             .then(function(resp) {
-                console.log(resp);
-                return JSON.parse(resp);
+                return resp.json();
             })
             .then((logs) => autoPlayStates(store, logs));
     }
@@ -39,7 +38,7 @@ export function autoPlayStates(store, logs) {
     function playIndex(index) {
         if(logs.length > index) {
             setTimeout(function() {
-                let parsedState = JSON.parse(logs[index].state);
+                let parsedState = JSON.parse(logs[index].log);
                 if(parsedState.type !== RECORDING.START) { //TODO make list instead of one and check if is in array
                     store.dispatch(parsedState);
                 }
