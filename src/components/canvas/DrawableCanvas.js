@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
  * modified version from
  * https://github.com/jonhni/react-drawable-canvas-example/blob/master/src/components/DrawableCanvas.jsx
  *
+ * TODO: register redux actions for draw start draw end .. draw with props?
  */
 class DrawableCanvas extends React.Component {
 
