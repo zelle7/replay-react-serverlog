@@ -46,7 +46,9 @@ export function autoPlayStates(store, logs) {
                     nextActionTime = logs[index+1].timestamp - logs[index].timestamp;
                     console.log(nextActionTime);
                 }
-                playIndex(++index);
+                if(store.getState().replay.replay){
+                    playIndex(++index);
+                }
             }, nextActionTime);
         } else {
             deactivateAutoplay(store);

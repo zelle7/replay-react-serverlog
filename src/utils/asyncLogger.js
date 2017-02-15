@@ -1,7 +1,7 @@
 /**
  * Created by chzellot on 07.02.17.
  */
-export function configureAsyncLogger(maxCacheLog, ignoreActions, fetchUrl){
+export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, fetchUrl){
     let cacheLog = [];
     let statData = {
         lastActionTime: null,
@@ -9,7 +9,7 @@ export function configureAsyncLogger(maxCacheLog, ignoreActions, fetchUrl){
     };
     return store => next => action => {
         let result = next(action);
-        if(store.getState().replay.recording){
+        if(store.getState().replay.recording || sendOnActions.indexOf(action.type) !== -1){
             if(ignoreActions.indexOf(action.type) === -1) {
                 statData.lastActionTime = statData.actionTime;
                 statData.actionTime = new Date();
@@ -18,7 +18,7 @@ export function configureAsyncLogger(maxCacheLog, ignoreActions, fetchUrl){
             } else {
                 console.log("ignore type " + action.type);
             }
-            if(cacheLog.length === maxCacheLog || ignoreActions.indexOf(action.type) !== -1) {
+            if(cacheLog.length === maxCacheLog || sendOnActions.indexOf(action.type) !== -1) {
                 let tmpCacheLog = JSON.stringify(cacheLog);
                 cacheLog = []; //reset cache
                 fetch(fetchUrl, {

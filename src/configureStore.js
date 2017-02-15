@@ -1,7 +1,7 @@
 /**
  * Created by chzellot on 06.02.17.
  */
-import {REPLAY, REPLAY as RECORDING} from "./constants";
+import {REPLAY, RECORDING} from "./constants";
 import replayApp from './reducers/index';
 import {createStore, applyMiddleware} from "redux";
 import thunkMiddleware from 'redux-thunk';
@@ -9,8 +9,9 @@ import createLogger from 'redux-logger';
 import {configureAsyncLogger} from './utils/asyncLogger';
 
 const loggerMiddleware = createLogger();
-const ignoreActions = [REPLAY.START, REPLAY.START, REPLAY.STOP, RECORDING.START];
-const asyncLogger = configureAsyncLogger(5, ignoreActions, 'http://localhost:4567/log');
+const ignoreActions = [REPLAY.START, REPLAY.START, RECORDING.STOP, RECORDING.START];
+const sendOnActions = [RECORDING.STOP];
+const asyncLogger = configureAsyncLogger(10, ignoreActions, sendOnActions, 'http://localhost:4567/log');
 
 export default function configureStore(initialState) {
     return createStore(
@@ -18,7 +19,7 @@ export default function configureStore(initialState) {
         initialState,
         applyMiddleware(
             thunkMiddleware,
-            loggerMiddleware,
+            //loggerMiddleware,
             asyncLogger,
         )
     )

@@ -40,8 +40,17 @@ CursorIndicators.propTypes = {
     sizeMove: PropTypes.number,
     sizeClick: PropTypes.number,
     zIndex: PropTypes.number,
-    cursorPositions: PropTypes.array,
-    clickPositions: PropTypes.array,
+    cursorPositions: PropTypes.array.isRequired,
+    clickPositions: PropTypes.array.isRequired,
+};
+
+CursorIndicators.defaultProps = {
+    colorMovement: 'red',
+    colorPositions: 'green',
+    opacity: 0.7,
+    sizeMove: 15,
+    sizeClick: 15,
+    zIndex: 100000
 };
 
 export default CursorIndicators;

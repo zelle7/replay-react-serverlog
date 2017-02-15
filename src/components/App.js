@@ -11,16 +11,11 @@ class AppContainer extends Component {
     constructor(props, context){
         super(props, context);
         this.onRecordingClick = this.onRecordingClick.bind(this);
-        this.onReplayClick = this.onReplayClick.bind(this);
     }
 
     onRecordingClick(e) {
         let type = this.props.replay.recording ? RECORDING.STOP : RECORDING.START;
         this.props.dispatch({type: type, data: {}});
-    }
-
-    onReplayClick(e) {
-        this.props.onReplayClick();
     }
 
 
@@ -36,7 +31,7 @@ class AppContainer extends Component {
                         To get started, edit <code>src/App.js</code> and save to reload.
                     </p>
                     <div style={{textAlign: 'center'}}>
-                        <Controls replay={replay} recording={recording} onReplayClick={this.onReplayClick} onRecordingClick={this.onRecordingClick}/>
+                        <Controls replay={replay} recording={recording} onReplayClick={this.props.onReplayClick} onRecordingClick={this.onRecordingClick}/>
                     </div>
                     {this.props.replay.replay ? <CursorIndicators cursorPositions={this.props.positions.cursor} clickPositions={this.props.positions.clicks} /> : null}
             </div>

@@ -13,7 +13,7 @@ body {
   min-height: 100%;
 }
 
-#root{
+#root, #root>div{
   height: 100%;
   width: 100%;
 }

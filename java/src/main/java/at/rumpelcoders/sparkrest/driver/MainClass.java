@@ -46,7 +46,7 @@ public class MainClass {
                     data.put(req.session().id(), new ArrayList<>());
                 }
                 ObjectMapper mapper = new ObjectMapper();
-                data.put(req.session().id(), Arrays.asList(mapper.readValue(req.body(), UILog[].class)));
+                data.get(req.session().id()).addAll(Arrays.asList(mapper.readValue(req.body(), UILog[].class)));
                 res.status(200);
                 return "parsed";
             } catch (Exception e) {
