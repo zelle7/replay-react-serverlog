@@ -67,7 +67,7 @@ export function trackCursorPosition(store, timeBetweenClicks){
     return (cursorPosition) => {
         let currentTime = new Date().getTime();
         if(lastPosTimer < currentTime && !store.getState().replay.active ) {
-            store.dispatch({type: ACTION_POSITION.MOVE, data: {x: cursorPosition.x, y: cursorPosition.y}});
+            //store.dispatch({type: ACTION_POSITION.MOVE, data: {x: cursorPosition.x, y: cursorPosition.y}});
             lastPosTimer = currentTime + timeBetweenClicks;
         }
     }
