@@ -26,9 +26,6 @@ class DrawableCanvasContainer extends React.Component {
         this.state = {
             canvas: null,
             context: null,
-            drawing: false,
-            lastX: 0,
-            lastY: 0
         };
     }
 
@@ -36,8 +33,8 @@ class DrawableCanvasContainer extends React.Component {
     componentDidMount() {
         let canvas = ReactDOM.findDOMNode(this);
 
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
+        canvas.style.width = '500px';
+        canvas.style.height = '500px';
         canvas.style.border = '1px solid black';
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
@@ -51,33 +48,37 @@ class DrawableCanvasContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.clear) {
+        if (nextProps.reset) {
             this.resetCanvas();
+            this.props.dispatch({type: CANVAS.RESET_DONE, data: {}})
         }
-        if (nextProps.drawing) {
-            let rect = this.state.canvas.getBoundingClientRect();
+        if (nextProps.drawing && !nextProps.drawn) {
             let lastX = nextProps.lastX;
             let lastY = nextProps.lastY;
-            let currentX = nextProps.nextX - rect.left;
-            let currentY = nextProps.nextY - rect.top;
+            let currentX = nextProps.currentX;
+            let currentY = nextProps.currentY;
             this.state.context.beginPath();
             this.draw(lastX, lastY, currentX, currentY);
-            console.log("DRAW");
-            this.props.dispatch({type: CANVAS.DRAWN, data: {lastX: currentX, lastY: currentY, currentX: null, currentY: null}})
+            this.props.dispatch({type: CANVAS.DRAWN, data: null})
         }
     }
 
     handleOnMouseDown(e) {
         let rect = this.state.canvas.getBoundingClientRect();
-        let lastX, lastY;
-        if (this.isMobile()) {
-            lastX = e.targetTouches[0].pageX - rect.left;
-            lastY = e.targetTouches[0].pageY - rect.top;
-        } else {
-            lastX = e.clientX - rect.left;
-            lastY = e.clientY - rect.top
-        }
-        this.props.dispatch({type: CANVAS.MOUSE_DOWN, data: {currentX: lastX, currentY: lastY, drawing: true}});
+        console.log(rect);
+        let currentX = (this.isMobile() ? e.targetTouches[0].pageX : e.clientX ) - rect.left;
+        let currentY = (this.isMobile() ? e.targetTouches[0].pageY : e.clientY ) - rect.top;
+        this.props.dispatch({
+            type: CANVAS.MOUSE_DOWN,
+            data: {
+                lastX: currentX,
+                lastY: currentY,
+                currentX: currentX,
+                currentY: currentY,
+                drawing: true,
+                drawn: false
+            }
+        });
     }
 
     handleOnMouseMove(e) {
@@ -86,21 +87,12 @@ class DrawableCanvasContainer extends React.Component {
             let rect = this.state.canvas.getBoundingClientRect();
             let lastX = this.props.lastX;
             let lastY = this.props.lastY;
-            let currentX;
-            let currentY;
-            if (this.isMobile()) {
-                currentX = e.targetTouches[0].pageX - rect.left;
-                currentY = e.targetTouches[0].pageY - rect.top;
-            }
-            else {
-                currentX = e.clientX - rect.left;
-                currentY = e.clientY - rect.top;
-            }
-
+            let currentX = (this.isMobile() ? e.targetTouches[0].pageX : e.clientX ) - rect.left;
+            let currentY = (this.isMobile() ? e.targetTouches[0].pageY : e.clientY ) - rect.top;
 
             this.props.dispatch({
                 type: CANVAS.MOUSE_MOVE,
-                data: {lastX: lastX, lastY: lastY, currentX: currentX, currentY: currentY}
+                data: {lastX: lastX, lastY: lastY, currentX: currentX, currentY: currentY, drawn: false}
             });
         }
     }
