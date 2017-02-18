@@ -12,7 +12,8 @@ export const DEFAULT_CANVAS_STATE = {
     currentY: null,
     reset: false,
     drawn: true,
-    brushColor: '#000000'
+    brushColor: 'rgba(0,0,0,1)',
+    brushSize: 4,
 };
 export const canvas = (state = DEFAULT_CANVAS_STATE, action) => {
     switch (action.type) {

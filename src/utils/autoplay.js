@@ -24,8 +24,13 @@ export function restoreHistory(store, logListUrl, fetchConfig) {
     }
 }
 
+/**
+ * function which does the actual autoplay, it takes a log array (probably fetched from a server) and do the replay
+ * each log entry should be an existing redux compatible action with the payload
+ * @param store
+ * @param logs
+ */
 export function autoPlayStates(store, logs) {
-    console.log(logs);
     store.dispatch({type: REPLAY.START, data: null});
     if (logs.length === 0) {
         deactivateAutoplay();
@@ -44,7 +49,7 @@ export function autoPlayStates(store, logs) {
                 }
                 if((index+1) < logs.length){
                     nextActionTime = logs[index+1].timestamp - logs[index].timestamp;
-                    console.log(nextActionTime);
+                    console.log(nextActionTime + " next action time");
                 }
                 if(store.getState().replay.replay){
                     playIndex(++index);
@@ -57,12 +62,22 @@ export function autoPlayStates(store, logs) {
 
 
 }
-
+/**
+ * sends the stop command to the redux reducer
+ * @param store
+ */
 export function deactivateAutoplay(store){
     store.dispatch({type: REPLAY.STOP, data: null});
 }
 
 let lastPosTimer = 0;
+/**
+ * function to track the cursor movement, after each timeout a redux event will be send. The functions returns a
+ * functions so that it can be used as click handler on elements
+ * @param store - redux store
+ * @param timeBetweenClicks - timeout between two click events sended to the redux store
+ * @returns {function(*)} - which does the actual tracking
+ */
 export function trackCursorPosition(store, timeBetweenClicks){
     return (cursorPosition) => {
         let currentTime = new Date().getTime();
@@ -70,5 +85,15 @@ export function trackCursorPosition(store, timeBetweenClicks){
             store.dispatch({type: ACTION_POSITION.MOVE, data: {x: cursorPosition.x, y: cursorPosition.y}});
             lastPosTimer = currentTime + timeBetweenClicks;
         }
+    }
+}
+/**
+ * simple click handler which tracks the click position and sends an action to the redux store
+ * @param dispatch - dispatch function of the redux store
+ * @returns {function(*)}
+ */
+export function trackClickPosition(dispatch) {
+    return (e) => {
+        dispatch({type: ACTION_POSITION.CLICK, data: {x: e.screenX, y: e.screenY}})
     }
 }

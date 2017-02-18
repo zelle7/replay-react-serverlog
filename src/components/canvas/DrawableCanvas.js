@@ -157,8 +157,8 @@ class DrawableCanvasContainer extends React.Component {
 }
 
 DrawableCanvasContainer.propTypes = {
-    brushColor: PropTypes.string,
-    lineWidth: PropTypes.number,
+    brushColor: PropTypes.string.isRequired,
+    lineWidth: PropTypes.number.isRequired,
     canvasStyle: PropTypes.shape({
         backgroundColor: PropTypes.string,
         cursor: PropTypes.string
@@ -167,7 +167,7 @@ DrawableCanvasContainer.propTypes = {
 };
 
 DrawableCanvasContainer.defaultProps = {
-    brushColor: '#000000',
+    brushColor: 'rgba(0,0,0,1)',
     lineWidth: 4,
     canvasStyle: {
         backgroundColor: '#FFFFFF',

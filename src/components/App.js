@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import "./App.css";
-import {ACTION_POSITION, RECORDING, CANVAS} from "../constants";
+import {RECORDING, CANVAS} from "../constants";
 import Controls from "./replay/controls";
 import CursorIndicators from "./replay/CursorIndicators";
 import DrawableCanvas from "./canvas/DrawableCanvas";
-import { SketchPicker } from 'react-color';
+import {SketchPicker} from "react-color";
 
 class AppContainer extends Component {
     constructor(props, context) {
@@ -23,16 +23,16 @@ class AppContainer extends Component {
         const {recording, replay} = this.props.replay;
         return (
             <div className="App" onClick={this.props.clickPosition}>
-                <div style={{textAlign: 'center'}}>
+                <div style={{textAlign: 'center', margin: '25px'}}>
                     <Controls replay={replay} recording={recording} onReplayClick={this.props.onReplayClick}
                               onRecordingClick={this.onRecordingClick}/>
                 </div>
                 <div style={{float: 'left', marginLeft: '15px'}}>
-                    <button className="btn btn-default" onClick={this.props.resetCanvas} >Reset Canvas</button>
-                    <SketchPicker />
+                    <SketchPicker onChangeComplete={this.props.brushColorChange} color={this.props.canvas.brushColor}/>
+                    <button style={{margin: '25px'}} className="btn btn-default" onClick={this.props.resetCanvas}>Reset Canvas</button>
                 </div>
                 <div style={{textAlign: 'center'}}>
-                    <DrawableCanvas onChangeComplete={this.props.brushColorChange} color={this.props.canvas.brushColor} />
+                    <DrawableCanvas brushColor={this.props.canvas.brushColor} lineWidth={this.props.canvas.brushSize}/>
                 </div>
                 {this.props.replay.replay ? <CursorIndicators cursorPositions={this.props.positions.cursor}
                                                               clickPositions={this.props.positions.clicks}/> : null}
@@ -43,6 +43,7 @@ class AppContainer extends Component {
 
 AppContainer.propTypes = {
     onReplayClick: PropTypes.func.isRequired,
+    clickPosition: PropTypes.func.isRequired
 };
 const mapStateToProps = (state) => {
     return state;
@@ -50,15 +51,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        clickPosition: (e) => {
-            dispatch({type: ACTION_POSITION.CLICK, data: {x: e.screenX, y: e.screenY}})
-        },
         resetCanvas: (e) => {
             dispatch({type: CANVAS.RESET, data: {reset: true}});
         },
         brushColorChange: (color, event) => {
-            console.log(color);
-            dispatch({type: CANVAS.CHANGE_COLOR, color: color.hex, alpha: color.alpha});
+            let rgba = 'rgba('+color.rgb.r+','+color.rgb.g+','+color.rgb.b+','+color.rgb.a+')';
+            dispatch({type: CANVAS.CHANGE_COLOR, color: rgba});
         },
 
         dispatch: dispatch
