@@ -18,3 +18,5 @@ npm-debug.log
 .idea/
 *.iml
 java/target/
+#remove resources will be copied via maven
+java/src/main/resources/
