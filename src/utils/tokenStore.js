@@ -44,6 +44,10 @@ export function tokenStoreMiddleware(tokenStore) {
         if (action.type == RECORDING.START) {
             tokenStore.new();
         }
-        return next;
+        return next(action);
     }
+}
+const tokenStore = new TokenStore();
+export function getTokenStore() {
+    return tokenStore;
 }
