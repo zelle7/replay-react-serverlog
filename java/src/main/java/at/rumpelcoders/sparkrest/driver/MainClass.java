@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.Request;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -26,6 +27,12 @@ public class MainClass {
      * @param args
      */
     public static void main(String[] args) {
+
+        int port = 4567;
+        if (args.length > 0) {
+            port = Integer.parseInt(args[0]);
+        }
+        port(port);
         staticFileLocation("/public");
         MainClass s = new MainClass();
         data = new HashMap<>();
@@ -38,15 +45,15 @@ public class MainClass {
     private void init() {
         data = new HashMap<>();
 
-        get("/hello", (req, res) -> "Hello World");
 
         post("/log", (req, res) -> {
             try {
-                if (!data.containsKey(req.session().id())) {
-                    data.put(req.session().id(), new ArrayList<>());
+                String token = getUserTokenFromReq(req);
+                if (!data.containsKey(token)) {
+                    data.put(token, new ArrayList<>());
                 }
                 ObjectMapper mapper = new ObjectMapper();
-                data.get(req.session().id()).addAll(Arrays.asList(mapper.readValue(req.body(), UILog[].class)));
+                data.get(token).addAll(Arrays.asList(mapper.readValue(req.body(), UILog[].class)));
                 res.status(200);
                 return "parsed";
             } catch (Exception e) {
@@ -56,8 +63,9 @@ public class MainClass {
             }
         });
         get("/list", (req, res) -> {
-            if (data.containsKey(req.session().id())) {
-                List<UILog> sortedList = data.get(req.session().id());
+            String token = getUserTokenFromReq(req);
+            if (data.containsKey(token)) {
+                List<UILog> sortedList = data.get(token);
                 Collections.sort(sortedList);
                 res.type("application/json");
                 res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -69,6 +77,7 @@ public class MainClass {
                 return toJSON(new ArrayList<>());
             }
         });
+        get("/listsesssions", (req, res) -> toJSON(data.keySet()));
 
     }
 
@@ -88,6 +97,10 @@ public class MainClass {
             logger.error("error on creating json", e);
         }
         return null;
+    }
+
+    private static String getUserTokenFromReq(Request request) {
+        return request.params("token") != null ? request.params("token") : request.session().id();
     }
 
 }

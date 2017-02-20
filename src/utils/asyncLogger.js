@@ -1,7 +1,7 @@
 /**
  * Created by chzellot on 07.02.17.
  */
-export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, fetchUrl){
+export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, fetchUrl, tokenStore){
     let cacheLog = [];
     let statData = {
         lastActionTime: null,
@@ -21,7 +21,7 @@ export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, 
             if(cacheLog.length === maxCacheLog || sendOnActions.indexOf(action.type) !== -1) {
                 let tmpCacheLog = JSON.stringify(cacheLog);
                 cacheLog = []; //reset cache
-                fetch(fetchUrl, {
+                fetch(fetchUrl , {
                     method: 'POST',
                     credentials: 'include',
                     headers: new Headers({'Content-Type': 'application/json'}),

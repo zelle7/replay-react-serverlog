@@ -4,6 +4,7 @@ import "./App.css";
 import {RECORDING, CANVAS} from "../constants";
 import Controls from "./replay/controls";
 import CursorIndicators from "./replay/CursorIndicators";
+import SessionList from "./replay/SessionList";
 import DrawableCanvas from "./canvas/DrawableCanvas";
 import {SketchPicker} from "react-color";
 
@@ -21,6 +22,7 @@ class AppContainer extends Component {
 
     render() {
         const {recording, replay} = this.props.replay;
+        const {sessionList, activeSession} = this.props;
         return (
             <div className="App" onClick={this.props.clickPosition}>
                 <div style={{textAlign: 'center', margin: '25px'}}>
@@ -30,6 +32,7 @@ class AppContainer extends Component {
                 <div style={{float: 'left', marginLeft: '15px'}}>
                     <SketchPicker onChangeComplete={this.props.brushColorChange} color={this.props.canvas.brushColor}/>
                     <button style={{margin: '25px'}} className="btn btn-default" onClick={this.props.resetCanvas}>Reset Canvas</button>
+                    <SessionList sessions={sessionList} onSessionClick={(e) => {console.log(e);}} activeSession={activeSession}/>
                 </div>
                 <div style={{textAlign: 'center'}}>
                     <DrawableCanvas brushColor={this.props.canvas.brushColor} lineWidth={this.props.canvas.brushSize}/>
@@ -43,7 +46,9 @@ class AppContainer extends Component {
 
 AppContainer.propTypes = {
     onReplayClick: PropTypes.func.isRequired,
-    clickPosition: PropTypes.func.isRequired
+    clickPosition: PropTypes.func.isRequired,
+    sessionList: PropTypes.array.isRequired,
+    activeSession: PropTypes.string,
 };
 const mapStateToProps = (state) => {
     return state;

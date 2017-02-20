@@ -21,10 +21,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/resources</outputDirectory>
+                            <outputDirectory>${basedir}/src/main/resources/public</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>../build/static/</directory>
+                                    <directory>../build/</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
@@ -42,9 +42,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
+                <version>1.7.1</version>
                 <configuration>
-                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>

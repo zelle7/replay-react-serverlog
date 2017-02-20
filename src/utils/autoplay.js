@@ -9,12 +9,14 @@ import {REPLAY, RECORDING, ACTION_POSITION} from "../constants";
  * @param store
  * @param logListUrl
  * @param fetchConfig
+ * @param tokenStore - TokenStore - user token for recording session
  * @returns {function()}
  */
-export function restoreHistory(store, logListUrl, fetchConfig) {
+export function restoreHistory(store, logListUrl, fetchConfig, tokenStore) {
     if(fetchConfig == null){
         fetchConfig = {method: 'get', credentials: 'include'}
     }
+    logListUrl += '?token='+tokenStore.get();
     return () => {
         fetch(logListUrl, fetchConfig)
             .then(function(resp) {
@@ -62,6 +64,7 @@ export function autoPlayStates(store, logs) {
 
 
 }
+
 /**
  * sends the stop command to the redux reducer
  * @param store
