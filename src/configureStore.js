@@ -5,16 +5,13 @@ import replayApp from "./reducers/index";
 import {createStore, applyMiddleware} from "redux";
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
-import {REPLAY, RECORDING} from "./constants";
-import {tokenStoreMiddleware, getTokenStore} from "./utils/tokenStore";
+import {REPLAY, RECORDING, SESSIONLIST} from "./constants";
 import {configureAsyncLogger} from "./utils/asyncLogger";
 
 const loggerMiddleware = createLogger();
-const tokenStore = getTokenStore();
-const ignoreActions = [REPLAY.START, REPLAY.START, RECORDING.STOP, RECORDING.START];
+const ignoreActions = [REPLAY.START, REPLAY.START, RECORDING.STOP, RECORDING.START, SESSIONLIST.FETCHED, SESSIONLIST.FETCHING, SESSIONLIST.CHANGE_ACTIVE];
 const sendOnActions = [RECORDING.STOP];
-const asyncLogger = configureAsyncLogger(10, ignoreActions, sendOnActions, 'http://localhost:4567/log', tokenStore);
-const tokenstMiddlware = tokenStoreMiddleware(tokenStore);
+const asyncLogger = configureAsyncLogger(10, ignoreActions, sendOnActions, 'http://localhost:4567/log');
 
 
 export default function configureStore(initialState) {
@@ -22,7 +19,6 @@ export default function configureStore(initialState) {
         replayApp,
         initialState,
         applyMiddleware(
-            tokenstMiddlware,
             thunkMiddleware,
             loggerMiddleware,
             asyncLogger,

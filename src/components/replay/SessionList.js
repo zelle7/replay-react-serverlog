@@ -5,21 +5,30 @@ import React, {PropTypes} from "react";
 
 
 class SessionList extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-    }
 
 
     render() {
         const {sessions, onSessionClick, activeSession} = this.props;
         return (
             <div>
-                <h3>Active: {activeSession} </h3>
-                <select onChange={onSessionClick}>
-                    {sessions.forEach(value => {
-                        <option>{value}</option>
+                <h4>Active: {activeSession} </h4>
+                <ul className="" style={{overflowY: 'scroll', height: '60px'}}>
+                    {sessions.map(value => {
+                        return <li style={{
+                            cursor: 'pointer',
+                            color: 'blue',
+                            textDecoration: 'underline'
+                        }}
+                                   className={activeSession === value ? 'active' : ''}
+                                   onClick={() => {
+                                       onSessionClick(value)
+                                   }}
+
+                        >
+                            {value}
+                        </li>
                     })}
-                </select>
+                </ul>
             </div>);
     }
 }

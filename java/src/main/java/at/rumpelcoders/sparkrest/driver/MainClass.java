@@ -77,7 +77,11 @@ public class MainClass {
                 return toJSON(new ArrayList<>());
             }
         });
-        get("/listsesssions", (req, res) -> toJSON(data.keySet()));
+        get("/listsesssions", (req, res) -> {
+            res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            res.header("Access-Control-Allow-Credentials", "true");
+            return toJSON(data.keySet());
+        });
 
     }
 
@@ -100,7 +104,7 @@ public class MainClass {
     }
 
     private static String getUserTokenFromReq(Request request) {
-        return request.params("token") != null ? request.params("token") : request.session().id();
+        return request.queryParams("token") != null ? request.queryParams("token") : request.session().id();
     }
 
 }

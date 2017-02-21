@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import "./App.css";
-import {RECORDING, CANVAS} from "../constants";
+import {RECORDING, CANVAS, SESSIONLIST} from "../constants";
 import Controls from "./replay/controls";
 import CursorIndicators from "./replay/CursorIndicators";
 import SessionList from "./replay/SessionList";
@@ -19,10 +19,12 @@ class AppContainer extends Component {
         this.props.dispatch({type: type, data: {}});
     }
 
+    componentDidMount() {
+        this.props.fetchSessions();
+    }
 
     render() {
-        const {recording, replay} = this.props.replay;
-        const {sessionList, activeSession} = this.props;
+        const {recording, replay, sessions, activeSession} = this.props.replay;
         return (
             <div className="App" onClick={this.props.clickPosition}>
                 <div style={{textAlign: 'center', margin: '25px'}}>
@@ -31,14 +33,18 @@ class AppContainer extends Component {
                 </div>
                 <div style={{float: 'left', marginLeft: '15px'}}>
                     <SketchPicker onChangeComplete={this.props.brushColorChange} color={this.props.canvas.brushColor}/>
-                    <button style={{margin: '25px'}} className="btn btn-default" onClick={this.props.resetCanvas}>Reset Canvas</button>
-                    <SessionList sessions={sessionList} onSessionClick={(e) => {console.log(e);}} activeSession={activeSession}/>
+                    <button style={{margin: '25px'}} className="btn btn-default" onClick={this.props.resetCanvas}>Reset
+                        Canvas
+                    </button>
+                    <SessionList sessions={sessions}
+                                 onSessionClick={this.props.onSessionClick}
+                                 activeSession={activeSession}/>
                 </div>
                 <div style={{textAlign: 'center'}}>
                     <DrawableCanvas brushColor={this.props.canvas.brushColor} lineWidth={this.props.canvas.brushSize}/>
                 </div>
-                {this.props.replay.replay ? <CursorIndicators cursorPositions={this.props.positions.cursor}
-                                                              clickPositions={this.props.positions.clicks}/> : null}
+                {replay ? <CursorIndicators cursorPositions={this.props.positions.cursor}
+                                            clickPositions={this.props.positions.clicks}/> : null}
             </div>
         );
     }
@@ -47,7 +53,7 @@ class AppContainer extends Component {
 AppContainer.propTypes = {
     onReplayClick: PropTypes.func.isRequired,
     clickPosition: PropTypes.func.isRequired,
-    sessionList: PropTypes.array.isRequired,
+    fetchSessions: PropTypes.func.isRequired,
     activeSession: PropTypes.string,
 };
 const mapStateToProps = (state) => {
@@ -60,8 +66,11 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({type: CANVAS.RESET, data: {reset: true}});
         },
         brushColorChange: (color, event) => {
-            let rgba = 'rgba('+color.rgb.r+','+color.rgb.g+','+color.rgb.b+','+color.rgb.a+')';
+            let rgba = 'rgba(' + color.rgb.r + ',' + color.rgb.g + ',' + color.rgb.b + ',' + color.rgb.a + ')';
             dispatch({type: CANVAS.CHANGE_COLOR, color: rgba});
+        },
+        onSessionClick: (token) => {
+            dispatch({type: SESSIONLIST.CHANGE_ACTIVE, session: token});
         },
 
         dispatch: dispatch

@@ -1,7 +1,7 @@
 /**
  * Created by chzellot on 07.02.17.
  */
-import {ACTION_POSITION, REPLAY, RECORDING, CANVAS} from "../constants";
+import {REPLAY, RECORDING, CANVAS} from "../constants";
 
 
 export const DEFAULT_CANVAS_STATE = {
@@ -23,8 +23,6 @@ export const canvas = (state = DEFAULT_CANVAS_STATE, action) => {
             return Object.assign({}, state, action.data);
         case CANVAS.RESET:
             return Object.assign({}, state, {reset: true});
-        case REPLAY.START:
-            return Object.assign({}, DEFAULT_CANVAS_STATE, {reset: true});
         case CANVAS.RESET_DONE:
             return Object.assign({}, state, {reset: false});
         case CANVAS.CHANGE_COLOR:
@@ -37,6 +35,9 @@ export const canvas = (state = DEFAULT_CANVAS_STATE, action) => {
                 currentY: null,
                 drawn: true
             });
+        case RECORDING.START:
+        case REPLAY.START:
+            return Object.assign({}, DEFAULT_CANVAS_STATE, {reset: true});
         default:
             return state;
     }
