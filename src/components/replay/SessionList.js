@@ -14,7 +14,7 @@ class SessionList extends React.Component {
                 <h4>Active: {activeSession} </h4>
                 <ul className="" style={{overflowY: 'scroll', height: '60px'}}>
                     {sessions.map(value => {
-                        return <li style={{
+                        return <li key={value} style={{
                             cursor: 'pointer',
                             color: 'blue',
                             textDecoration: 'underline'
