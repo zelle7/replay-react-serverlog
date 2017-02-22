@@ -47,8 +47,10 @@ export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, 
                 fetch(urlCombined, {
                     method: 'POST',
                     credentials: 'include',
-                    headers: new Headers({'Content-Type': 'application/json'}),
-                    mode: 'no-cors',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
                     body: tmpCacheLog
                 })
                     .then(function (serverResp) {

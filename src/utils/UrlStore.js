@@ -3,9 +3,9 @@
  */
 
 let urlStore = {
-    log: 'http://localhost:3000/log',
-    loadLog: 'http://localhost:4567/list',
-    loadSessions: 'http://localhost:4567/listsesssions',
+    log: '/api/log',
+    loadLog: '/api/list',
+    loadSessions: '/api/listsessions',
 };
 
 let preparedUrlStore = null;

@@ -5,6 +5,7 @@
   "author": "Christian Zellot",
   "license": "MIT",
   "homepage": ".",
+//  "proxy": "http://liresolr.aau.at/reactreplay/",
   "devDependencies": {
     "babel-core": "^6.22.1",
     "babel-jest": "^18.0.0",
@@ -41,6 +42,6 @@
     "eject": "react-scripts eject",
     "webpack": "./node_modules/.bin/webpack",
     "watch": "./node_modules/.bin/webpack -w",
-    "clean": "rm -r ./dist/"
+    "clean": "rm -r ./build"
   }
 }

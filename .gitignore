@@ -19,4 +19,4 @@ npm-debug.log
 *.iml
 java/target/
 #remove resources will be copied via maven
-java/src/main/resources/
+java/src/main/resources/static/
