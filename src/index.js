@@ -8,11 +8,12 @@ import {Provider} from "react-redux";
 import configureStore from "./configureStore";
 import {trackCursorPosition, trackClickPosition, restoreHistory, fetchSessions} from "./utils/autoplay";
 import {REPLAY} from "./constants";
+import {prepareUrls} from "./utils/UrlStore";
 
-
+const urlStore = prepareUrls(window);
 const store = configureStore();
-const useHistory = restoreHistory(store, 'http://localhost:4567/list', null);
-const fetchLists = fetchSessions('http://localhost:4567/listsesssions', null, store.dispatch);
+const useHistory = restoreHistory(store, urlStore.loadLog, null);
+const fetchLists = fetchSessions(urlStore.loadSessions, null, store.dispatch);
 const replayFunction = function () {
     if (!store.getState().replay.replay) {
         return useHistory();

@@ -3,16 +3,17 @@
  */
 
 let urlStore = {
-    log: 'http://localhost:300/log',
-    loadLog: 'http://localhost:300/list',
-    loadSessions: 'http://localhost:300/listsessions',
+    log: 'http://localhost:3000/log',
+    loadLog: 'http://localhost:4567/list',
+    loadSessions: 'http://localhost:4567/listsesssions',
 };
 
+let preparedUrlStore = null;
 export function prepareUrls(window) {
-    if (!(typeof window.GLOBAL_URLS == 'undefined')) {
-        Object.assign({}, urlStore, window.GLOBAL_URLS);
+    if (!(typeof window.GLOBAL_URLS === 'undefined')) {
+        preparedUrlStore = Object.assign({}, urlStore, window.GLOBAL_URLS);
+    } else {
+        preparedUrlStore = Object.assign({}, urlStore);
     }
-    return () => {
-        return urlStore;
-    }
+    return preparedUrlStore;
 }
