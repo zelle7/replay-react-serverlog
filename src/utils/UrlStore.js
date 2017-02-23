@@ -3,9 +3,9 @@
  */
 
 let urlStore = {
-    log: '/api/log',
-    loadLog: '/api/list',
-    loadSessions: '/api/listsessions',
+    log: process.env.REACT_APP_API_URL + '/api/log',
+    loadLog: process.env.REACT_APP_API_URL + '/api/list',
+    loadSessions: process.env.REACT_APP_API_URL + '/api/listsessions',
 };
 
 let preparedUrlStore = null;
