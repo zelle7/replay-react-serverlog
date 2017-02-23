@@ -49,9 +49,11 @@ export function autoPlayStates(store, logs) {
                 if (parsedState.type !== RECORDING.START) { //TODO make list instead of one and check if is in array
                     store.dispatch(parsedState);
                 }
+                let bodyEl = window.document.body.style;
                 if ((index + 1) < logs.length) {
-                    nextActionTime = logs[index + 1].timestamp - logs[index].timestamp;
-                    console.log(nextActionTime + " next action time");
+                    nextActionTime = parsedState.actionTime - logs[index].timestamp;
+                    bodyEl.height = parsedState.bodyHeight + 'px';
+                    bodyEl.width = parsedState.bodyWidth + 'px';
                 }
                 if (store.getState().replay.replay) {
                     playIndex(++index);

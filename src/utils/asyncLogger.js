@@ -24,11 +24,16 @@ export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, 
     let statData = {
         lastActionTime: null,
         actionTime: null,
+        bodyHeight: window.document.body.style.height,
+        bodyWidth: window.document.body.style.width,
     };
     return store => next => action => {
         let result = next(action);
         if (store.getState().replay.recording || sendOnActions.indexOf(action.type) !== -1) {
             if (ignoreActions.indexOf(action.type) === -1) {
+                let bodyEl = window.document.body;
+                statData.bodyHeight = bodyEl.style.height;
+                statData.bodyWidth = bodyEl.style.width;
                 statData.lastActionTime = statData.actionTime;
                 statData.actionTime = new Date();
                 //stringifies the actual data
@@ -36,6 +41,7 @@ export function configureAsyncLogger(maxCacheLog, ignoreActions, sendOnActions, 
                     log: JSON.stringify(Object.assign({}, result, {statData})),
                     timestamp: new Date().getTime()
                 };
+                console.log(jsonData);
                 cacheLog.push(jsonData);
             } else {
                 console.log("ignore type " + action.type);

@@ -17,6 +17,7 @@ class AppContainer extends Component {
     onRecordingClick(e) {
         let type = this.props.replay.recording ? RECORDING.STOP : RECORDING.START;
         this.props.dispatch({type: type, data: {}});
+        this.props.fetchSessions();
     }
 
     componentDidMount() {
