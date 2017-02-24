@@ -33,3 +33,8 @@ export const CANVAS = {
     RESET: 'CANVAS_RESET',
     RESET_DONE: 'CANVAS_RESET_DONE',
 };
+
+export const VIDEO_PLAYER = {
+    START: 'VIDEO_PLAYER_START',
+    PAUSE: 'VIDEO_PLAYER_STOP',
+};

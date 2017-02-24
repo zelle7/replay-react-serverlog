@@ -85,7 +85,7 @@ export function deactivateAutoplay(store) {
     store.dispatch({type: REPLAY.STOP, data: null});
     window.document.body.style.height = null;
     window.document.body.style.width = null;
-    //reset height and width 
+    //reset height and width
 }
 
 let lastPosTimer = 0;
