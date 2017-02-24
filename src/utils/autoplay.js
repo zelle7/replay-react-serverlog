@@ -21,7 +21,10 @@ export function restoreHistory(store, logListUrl, fetchConfig) {
             .then(function (resp) {
                 return resp.json();
             })
-            .then((logs) => autoPlayStates(store, logs));
+            .then((logs) => autoPlayStates(store, logs))
+            .catch(function (err) {
+                console.error("error on fetching session", err);
+            });
     }
 }
 
@@ -35,7 +38,8 @@ export function restoreHistory(store, logListUrl, fetchConfig) {
 export function autoPlayStates(store, logs) {
     store.dispatch({type: REPLAY.START, data: null});
     if (logs.length === 0) {
-        deactivateAutoplay();
+        console.error("no log data given will be autoplay will be stopped now")
+        deactivateAutoplay(store);
         return;
     }
     let index = 0;
@@ -52,8 +56,8 @@ export function autoPlayStates(store, logs) {
                 let bodyEl = window.document.body.style;
                 if ((index + 1) < logs.length) {
                     nextActionTime = parsedState.actionTime - logs[index].timestamp;
-                    bodyEl.height = parsedState.bodyHeight + 'px';
-                    bodyEl.width = parsedState.bodyWidth + 'px';
+                    bodyEl.height = parsedState.statData.bodyHeight + 'px';
+                    bodyEl.width = parsedState.statData.bodyWidth + 'px';
                 }
                 if (store.getState().replay.replay) {
                     playIndex(++index);
@@ -73,6 +77,9 @@ export function autoPlayStates(store, logs) {
  */
 export function deactivateAutoplay(store) {
     store.dispatch({type: REPLAY.STOP, data: null});
+    window.document.body.style.height = null;
+    window.document.body.style.width = null;
+    //reset height and width 
 }
 
 let lastPosTimer = 0;
