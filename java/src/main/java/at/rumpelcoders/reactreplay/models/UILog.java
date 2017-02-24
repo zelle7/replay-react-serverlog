@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  * Created by chzellot on 07.02.17.
@@ -18,6 +19,7 @@ public class UILog implements Comparable<UILog> {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String uuid;
 
+    @Lob
     private String log;
     private String token;
     private long timestamp;

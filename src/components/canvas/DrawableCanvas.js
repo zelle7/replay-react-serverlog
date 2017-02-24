@@ -92,7 +92,7 @@ class DrawableCanvasContainer extends React.Component {
 
             this.props.dispatch({
                 type: CANVAS.MOUSE_MOVE,
-                data: {lastX: lastX, lastY: lastY, currentX: currentX, currentY: currentY, drawn: false}
+                data: {lastX: lastX, lastY: lastY, currentX: currentX, currentY: currentY, drawn: false, drawing: true}
             });
         }
     }
