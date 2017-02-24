@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import "./App.css";
-import {RECORDING, CANVAS, SESSIONLIST} from "../constants";
+import {RECORDING, CANVAS, SESSIONLIST, VIDEO_PLAYER} from "../constants";
 import Controls from "./replay/controls";
 import CursorIndicators from "./replay/CursorIndicators";
 import SessionList from "./replay/SessionList";
@@ -38,7 +38,7 @@ class AppContainer extends Component {
                                  activeSession={activeSession}/>
                 </div>
                 <div style={{textAlign: 'center'}}>
-                    <VideoPlayer />
+                    <VideoPlayer videoId="MZ2tq0F8-ww" onPlay={this.props.videoPlay} onPause={this.props.videoPause} playerProps={this.props.player}/>
                 </div>
                 {replay ? <CursorIndicators cursorPositions={this.props.positions.cursor}
                                             clickPositions={this.props.positions.clicks}/> : null}
@@ -62,7 +62,12 @@ const mapDispatchToProps = (dispatch) => {
         onSessionClick: (token) => {
             dispatch({type: SESSIONLIST.CHANGE_ACTIVE, session: token});
         },
-
+        videoPlay: () =>{
+            dispatch({type: VIDEO_PLAYER.PLAY})
+        },
+        videoPause: () =>{
+            dispatch({type: VIDEO_PLAYER.PAUSE})
+        },
         dispatch: dispatch
     }
 };

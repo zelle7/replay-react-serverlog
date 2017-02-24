@@ -35,6 +35,6 @@ export const CANVAS = {
 };
 
 export const VIDEO_PLAYER = {
-    START: 'VIDEO_PLAYER_START',
+    PLAY: 'VIDEO_PLAYER_PLAY',
     PAUSE: 'VIDEO_PLAYER_STOP',
 };

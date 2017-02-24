@@ -5,11 +5,12 @@ import { combineReducers } from 'redux'
 import {replay} from './replay'
 import {positions} from './positions'
 import {canvas} from './canvas'
+import {player} from './video'
 
 const replayApp = combineReducers({
     replay,
     positions,
-    canvas,
+    player,
 });
 
 export default replayApp;
