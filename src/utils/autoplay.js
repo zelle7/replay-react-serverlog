@@ -44,20 +44,26 @@ export function autoPlayStates(store, logs) {
     }
     let index = 0;
     let nextActionTime = 200;
+    let parsedNextState = null;
     playIndex(index);
 
     function playIndex(index) {
         if (logs.length > index) {
             setTimeout(function () {
-                let parsedState = JSON.parse(logs[index].log);
+                let parsedState = parsedNextState != null ? parsedNextState : JSON.parse(logs[index].log);
                 if (parsedState.type !== RECORDING.START) { //TODO make list instead of one and check if is in array
                     store.dispatch(parsedState);
                 }
                 let bodyEl = window.document.body.style;
                 if ((index + 1) < logs.length) {
-                    nextActionTime = parsedState.actionTime - logs[index].timestamp;
+                    parsedNextState = JSON.parse(logs[index+1].log);
+                    let actionTimeAct = new Date(parsedState.statData.actionTime).getTime();
+                    let actionTimeNext = new Date(parsedNextState.statData.actionTime).getTime();
+                    nextActionTime =  actionTimeNext -actionTimeAct;
                     bodyEl.height = parsedState.statData.bodyHeight + 'px';
                     bodyEl.width = parsedState.statData.bodyWidth + 'px';
+                } else {
+                    parsedNextState = null;
                 }
                 if (store.getState().replay.replay) {
                     playIndex(++index);

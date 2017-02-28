@@ -4,7 +4,13 @@
 import {REPLAY, RECORDING, SESSIONLIST} from "../constants";
 
 
-export const DEFAULT_REPLAY_STATE = {replay: false, recording: false, sessionsFetching: false, sessions: [], activeSession: _generateUUID()};
+export const DEFAULT_REPLAY_STATE = {
+    replay: false,
+    recording: false,
+    sessionsFetching: false,
+    sessions: [],
+    activeSession: _generateUUID()
+};
 export const replay = (state = DEFAULT_REPLAY_STATE, action) => {
     switch (action.type) {
         case REPLAY.START:
@@ -28,7 +34,7 @@ export const replay = (state = DEFAULT_REPLAY_STATE, action) => {
 
 function _generateUUID() {
     let d = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    return 'xxxxxxxx-xxxx-yxxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         let r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
         //eslint-disable-next-line
