@@ -1,17 +1,15 @@
 package at.rumpelcoders.reactreplay.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
 /**
  * Created by chzellot on 07.02.17.
  */
 @Entity
-public class UILog implements Comparable<UILog> {
+public class UserAction implements Comparable<UserAction> {
 
 
     @Id
@@ -21,12 +19,18 @@ public class UILog implements Comparable<UILog> {
 
     @Lob
     private String log;
-    private String token;
     private long timestamp;
+    private String recordingSessionId;
 
-    public UILog(){}
+    @ManyToOne
+    @JoinColumn(name = "recordingSessionId", insertable = false, updatable = false)
+    @JsonIgnoreProperties
+    private RecordingSession recordingSession;
 
-    public UILog(String log, long timestamp) {
+    public UserAction() {
+    }
+
+    public UserAction(String log, long timestamp) {
         this.log = log;
         this.timestamp = timestamp;
     }
@@ -55,16 +59,16 @@ public class UILog implements Comparable<UILog> {
         this.uuid = uuid;
     }
 
-    public String getToken() {
-        return token;
+    public String getRecordingSessionId() {
+        return recordingSessionId;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setRecordingSessionId(String recordingSessionId) {
+        this.recordingSessionId = recordingSessionId;
     }
 
     @Override
-    public int compareTo(UILog o) {
+    public int compareTo(UserAction o) {
         return Long.compare(this.timestamp, o.timestamp);
     }
 }

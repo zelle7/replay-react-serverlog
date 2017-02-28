@@ -12,20 +12,20 @@ class SessionList extends React.Component {
         return (
             <div>
                 <h4>Active: {activeSession} </h4>
-                <ul className="" style={{overflowY: 'scroll', height: '60px'}}>
-                    {sessions.map(value => {
-                        return <li key={value} style={{
+                <ul className="" style={{overflowY: 'scroll', height: '120px'}}>
+                    {sessions.map(session => {
+                        return <li key={session.id} style={{
                             cursor: 'pointer',
                             color: 'blue',
                             textDecoration: 'underline'
                         }}
-                                   className={activeSession === value ? 'active' : ''}
+                                   className={activeSession === session.id ? 'active' : ''}
                                    onClick={() => {
-                                       onSessionClick(value)
+                                       onSessionClick(session.id)
                                    }}
 
                         >
-                            {value}
+                            {new Date(session.timestamp).toTimeString()} {session.id}
                         </li>
                     })}
                 </ul>
