@@ -27,6 +27,11 @@ class VideoPlayer extends Component {
         if(nextProps.playerProps.play){
             this.state.player.playVideo();
         }
+        if(nextProps.playerProps.reset){
+            console.log("video stopped");
+            this.state.player.stopVideo();
+            this.props.onResetDone();
+        }
     }
 
     render() {
@@ -65,6 +70,7 @@ VideoPlayer.propTypes = {
     onPlay: PropTypes.func,
     onPause: PropTypes.func,
     onEnd: PropTypes.func,
+    onResetDone: PropTypes.func,
     playerProps: PropTypes.object
 };
 
@@ -72,6 +78,7 @@ VideoPlayer.defaultProps = {
     onPlay: (e) => {console.log(e)},
     onPause: (e) => {console.log(e)},
     onEnd: (e) => {console.log(e)},
+    onResetDone: () => {console.log("reset done")},
     playerProps: {play: false, pause: false}
 };
 export default VideoPlayer;

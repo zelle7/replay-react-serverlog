@@ -38,7 +38,11 @@ class AppContainer extends Component {
                                  activeSession={activeSession}/>
                 </div>
                 <div style={{textAlign: 'center'}}>
-                    <VideoPlayer videoId="MZ2tq0F8-ww" onPlay={this.props.videoPlay} onPause={this.props.videoPause} playerProps={this.props.player}/>
+                    <VideoPlayer videoId="MZ2tq0F8-ww"
+                                 onPlay={this.props.videoPlay}
+                                 onPause={this.props.videoPause}
+                                 onResetDone={this.props.videoResetDone}
+                                 playerProps={this.props.player}/>
                 </div>
                 {replay ? <CursorIndicators cursorPositions={this.props.positions.cursor}
                                             clickPositions={this.props.positions.clicks}/> : null}
@@ -62,11 +66,14 @@ const mapDispatchToProps = (dispatch) => {
         onSessionClick: (token) => {
             dispatch({type: SESSIONLIST.CHANGE_ACTIVE, session: token});
         },
-        videoPlay: () =>{
+        videoPlay: () => {
             dispatch({type: VIDEO_PLAYER.PLAY})
         },
-        videoPause: () =>{
+        videoPause: () => {
             dispatch({type: VIDEO_PLAYER.PAUSE})
+        },
+        videoResetDone: () => {
+            dispatch({type: VIDEO_PLAYER.RESET_DONE})
         },
         dispatch: dispatch
     }
