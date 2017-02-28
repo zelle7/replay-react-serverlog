@@ -2,6 +2,13 @@
 This App is a simple showcase for a replay function with react and redux. 
 The server components can be easily build with other server technologies. This project
 uses spring boot and a hsqldb as storage (but you could also make a php app or whatever you want)
+
+## Dev
+
+    npm run start //this will start the dev server with hot reloading
+    
+    mvn spring-boot:run //start the api server 
+
 ## Build 
 ### Build js
 Build and set the correct urls with. 
